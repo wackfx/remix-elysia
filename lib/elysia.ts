@@ -2,11 +2,14 @@ import Elysia from "elysia";
 import { watcher as _watcher } from "./dev";
 import { createRequestHandlerWithStaticFiles } from "./http";
 import type { ViteBuildOptions } from "@remix-run/dev/dist/vite/build";
+import { resolve } from "node:path";
 
-export const remix = async (options: ViteBuildOptions & { mode?: string; basename?: string; root?: string }) => {
+export const remix = async (
+  options: ViteBuildOptions & { mode?: string; basename?: string; root?: string } & Parameters<typeof _watcher>[0]
+) => {
   const watcher = options.mode !== "production" ? await _watcher(options) : undefined;
   const handler = createRequestHandlerWithStaticFiles({
-    build: async () => import(`${options.root ?? process.cwd()}/build/server/index`),
+    build: async () => import(resolve(options.root ?? process.cwd(), options.directory ?? "", "build/server/index")),
     mode: options.mode,
     all: !!options.basename,
   });

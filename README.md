@@ -101,3 +101,36 @@ console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.por
 ```
 
 3 - Done. Run `npm run dev` and go to `http://localhost:3000/app`
+
+## Advanced - Integrate deep into your code
+
+```javascript
+// src/frontend/index.ts
+const app = new Elysia().use(
+  await remix({
+    // > 'root' parameter should be set to where a package.json file is.
+    // root: '/'
+    // > use basename as usual - basename is for app URL, not related to folder / code location
+    // basename: '/my-app',
+    mode: process.env.NODE_ENV,
+    directory: import.meta.dir,
+    // > 'directory' already set this for you, but you can override other params as well
+    // watch: [resolve(import.meta.dir, './app'), resolve(import.meta.dir, './public')],
+    // config: resolve(import.meta.dir, './vite.config.ts'),
+  })
+);
+
+// src/frontend/vite.config.ts
+import { resolve } from "node:path";
+
+export default defineConfig({
+  plugins: [
+    remix({
+      // basename: '/admin',
+      buildDirectory: resolve(import.meta.dir, `build`),
+      appDirectory: resolve(import.meta.dir, `app`),
+    }),
+    tsconfigPaths(),
+  ],
+});
+```
