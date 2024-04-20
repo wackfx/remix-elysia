@@ -6,7 +6,7 @@
 >
 > Make sure you understand the consequences before using anything you'll find here.
 >
-> I won't take bug requests, you're on your own.
+> I won't take bug requests, it's an experiment that fit my needs, for the rest, you're on your own.
 
 # remix-elysia
 
