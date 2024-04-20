@@ -126,7 +126,7 @@ import { resolve } from "node:path";
 export default defineConfig({
   plugins: [
     remix({
-      // basename: '/admin',
+      // basename: '/my-app',
       buildDirectory: resolve(import.meta.dir, `build`),
       appDirectory: resolve(import.meta.dir, `app`),
     }),
