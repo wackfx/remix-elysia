@@ -23,8 +23,12 @@ export const watcher = async (
   let building: Promise<void> | undefined = undefined;
   const rebuild = () => {
     if (building) return;
-    building = new Promise(async (ok, ko) => {
-      await build(root, options).catch(ko);
+    building = new Promise(async (ok) => {
+      try {
+        await build(root, options);
+      } catch (e) {
+        console.error(e);
+      }
       ok();
       building = undefined;
     });
