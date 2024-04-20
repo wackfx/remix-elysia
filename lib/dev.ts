@@ -32,7 +32,7 @@ export const watcher = async (
   };
 
   await rebuild();
-  if (options.mode === "production") return async () => {}; // noop
+  if (options.mode === "production") return null; // noop
   paths.map((p) => watch(p, { recursive: true }, rebuild));
 
   return async () => {

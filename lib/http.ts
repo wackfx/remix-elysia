@@ -1,5 +1,5 @@
 import mime from "mime";
-import path from "node:path";
+import { resolve, join } from "node:path";
 import { createRequestHandler as createRemixRequestHandler } from "@remix-run/server-runtime";
 import type { AppLoadContext, ServerBuild } from "@remix-run/server-runtime";
 
@@ -59,12 +59,14 @@ export async function serveStaticFiles(
   request: Request,
   {
     cacheControl,
-    publicDir = "./public",
-    assetsPublicPath = "/build/",
+    basename = "/",
+    publicDir = "./build/client",
+    assetsPath = "/assets",
   }: {
     cacheControl?: string | ((url: URL) => string);
+    basename?: string;
     publicDir?: string;
-    assetsPublicPath?: string;
+    assetsPath?: string;
   }
 ) {
   const url = new URL(request.url);
@@ -80,10 +82,11 @@ export async function serveStaticFiles(
   } else if (cacheControl) {
     headers.set("Cache-Control", cacheControl);
   } else {
-    headers.set("Cache-Control", defaultCacheControl(url, assetsPublicPath));
+    headers.set("Cache-Control", defaultCacheControl(url, assetsPath));
   }
 
-  const filePath = path.join(process.cwd(), publicDir, url.pathname);
+  const filePath = join(resolve(process.cwd(), publicDir), url.pathname.replace(basename, ""));
+
   try {
     const file = await Bun.file(filePath);
     if (!(await file.exists())) throw new FileNotFoundError(filePath);
@@ -100,8 +103,9 @@ export function createRequestHandlerWithStaticFiles<Context extends AppLoadConte
   all,
   getLoadContext,
   staticFiles = {
+    basename: "/",
     publicDir: "./build/client",
-    assetsPublicPath: "/build/",
+    assetsPath: "/assets",
   },
 }: {
   build: string | ServerBuild | (() => Promise<any>);
@@ -110,8 +114,9 @@ export function createRequestHandlerWithStaticFiles<Context extends AppLoadConte
   all?: boolean;
   staticFiles?: {
     cacheControl?: string | ((url: URL) => string);
+    basename?: string;
     publicDir?: string;
-    assetsPublicPath?: string;
+    assetsPath?: string;
   };
 }) {
   const remixHandler = createRequestHandler({ build, mode, getLoadContext });

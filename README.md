@@ -80,6 +80,7 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
++  base: "/app/", // Yes, you need to have an extra / at the end
 -  plugins: [remix(), tsconfigPaths()]
 +  plugins: [remix({ basename: '/app' }), tsconfigPaths()]
 });
@@ -124,6 +125,8 @@ const app = new Elysia().use(
 import { resolve } from "node:path";
 
 export default defineConfig({
+  // basename: '/my-app/',
+  publicDir: resolve(import.meta.dir, `public`),
   plugins: [
     remix({
       // basename: '/my-app',
