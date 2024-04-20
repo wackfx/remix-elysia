@@ -70,7 +70,7 @@ bun run dev
 
 > Run `npm run dev` at least once - `start` will NOT (re)build. Commit your build folder for production.
 
-## how to have remix in subfolder | isolate app | set a basename
+## accessible on a url subpath // custom basename
 
 1 - Add your basename to `vite.config.ts`
 
@@ -103,13 +103,13 @@ console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.por
 
 3 - Done. Run `npm run dev` and go to `http://localhost:3000/app`
 
-## Advanced - Integrate deep into your code
+## remix in a subfolder (monoliths, monorepos ...)
 
 ```javascript
 // src/frontend/index.ts
 const app = new Elysia().use(
   await remix({
-    // > 'root' parameter should be set to where a package.json file is.
+    // > for monorepos; 'root' parameter should be set to where a package.json file is
     // root: '/'
     // > use basename as usual - basename is for app URL, not related to folder / code location
     // basename: '/my-app',
