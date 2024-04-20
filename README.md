@@ -1,6 +1,6 @@
 > ☣️ disclaimer: experimental / hacky / weird / bad stuff ahead 🧟
 >
-> No HMR, code rebuilt on every change, you need to reload the page to see the changes (but I don't care) ...
+> No HMR, code rebuilt on every change, you need to reload the page to see the changes (I don't really mind refreshing the page) ...
 >
 > I mostly needed to have this on github for my personal use / deployment, it contains some dirty tricks.
 >
