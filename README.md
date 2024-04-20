@@ -64,7 +64,7 @@ console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.por
 Run
 
 ```bash
-bun run dev & open http://localhost:3000
+bun run dev
 ```
 
 > Run `npm run dev` at least once - `start` will NOT (re)build. Commit your build folder for production.
