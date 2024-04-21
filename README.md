@@ -1,12 +1,10 @@
 > ☣️ disclaimer: experimental / hacky / weird / bad stuff ahead 🧟
 >
-> No HMR, code rebuilt on every change, you need to reload the page to see the changes (I don't really mind refreshing the page) ...
->
-> I mostly needed to have this on github for my personal use / deployment, it contains some dirty tricks.
+> This is a really hacky way to have remix (with vite) in Elysia
+> I mostly needed to have this on github for my personal use / deployment,
+> I won't take bug requests, it's an experiment that fit my needs, for the rest, you're on your own.
 >
 > Make sure you understand the consequences before using anything you'll find here.
->
-> I won't take bug requests, it's an experiment that fit my needs, for the rest, you're on your own.
 
 # remix-elysia
 
