@@ -3,9 +3,15 @@ import { createRequestHandler } from "@remix-run/server-runtime";
 import type { RemixElysiaOptions } from "..";
 import type { ServerBuild } from "@remix-run/server-runtime";
 import { publicFile, run } from "../utils";
+import { resolve } from "node:path";
 
 export const handler = async (options: RemixElysiaOptions) => {
-  const vite = await import("vite").then((vite) => vite.createServer({ server: { port: 5959 } }));
+  const vite = await import("vite").then((vite) =>
+    vite.createServer({
+      configFile: options.config ?? resolve(options.root ?? process.cwd(), options.directory ?? "", "vite.config.ts"),
+      server: { port: 5959 },
+    })
+  );
   const getPublicFile = publicFile(options, options.basename, "public");
   vite.listen();
 
