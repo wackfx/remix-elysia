@@ -80,7 +80,7 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-+  base: "/app/", // Yes, you need to have an extra / at the end
++  base: "/app",
 -  plugins: [remix(), tsconfigPaths()]
 +  plugins: [remix({ basename: '/app' }), tsconfigPaths()]
 });
