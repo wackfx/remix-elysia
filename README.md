@@ -1,7 +1,9 @@
 > ☣️ disclaimer: experimental / hacky / weird / bad stuff ahead 🧟
 >
-> This is a really hacky way to have remix (with vite) in Elysia
-> I mostly needed to have this on github for my personal use / deployment,
+> This is a really hacky way to have remix (with vite) in Elysia,
+> nowhere near something you should use for respectable projects.
+>
+> I mostly needed to have this on github for my personal project use / deployment,
 > I won't take bug requests, it's an experiment that fit my needs, for the rest, you're on your own.
 >
 > Make sure you understand the consequences before using anything you'll find here.
