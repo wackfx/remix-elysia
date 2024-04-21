@@ -112,7 +112,6 @@ const app = new Elysia().use(
     mode: process.env.NODE_ENV,
     directory: import.meta.dir,
     // > 'directory' already set this for you, but you can override other params as well
-    // watch: [resolve(import.meta.dir, './app'), resolve(import.meta.dir, './public')],
     // config: resolve(import.meta.dir, './vite.config.ts'),
   })
 );
