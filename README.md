@@ -66,8 +66,6 @@ Run
 bun run dev
 ```
 
-> Run `npm run dev` at least once - `start` will NOT (re)build. Commit your build folder for production.
-
 ## accessible on a url subpath // custom basename
 
 1 - Add your basename to `vite.config.ts`
