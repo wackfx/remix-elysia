@@ -6,7 +6,7 @@
 > I mostly needed to have this on github for my personal project use / deployment,
 > I won't take bug requests, it's an experiment that fit my needs, for the rest, you're on your own.
 >
-> Make sure you understand the consequences before using anything you'll find here.
+> Make sure you understand the consequences before using anything you'll find hegre.
 
 # remix-elysia
 
@@ -18,6 +18,20 @@ In your bun remix project (use `bun create remix` to create one)
 
 ```sh
 bun add elysia github:wackfx/remix-elysia
+```
+
+Create a file `index.ts`
+
+```javascript
+import { Elysia } from "elysia";
+import { remix } from "remix-elysia";
+
+const app = new Elysia()
+  .use(await remix({ mode: process.env.NODE_ENV }))
+  .get("/hello", () => "world !")
+  .listen(3000);
+
+console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
 ```
 
 Remove those two lines from `vite.config.ts` and change your `package.json`
@@ -46,20 +60,6 @@ export default defineConfig({
   plugins: [remix(), tsconfigPaths()]
 });
 
-```
-
-Create a file `index.ts`
-
-```javascript
-import { Elysia } from "elysia";
-import { remix } from "remix-elysia";
-
-const app = new Elysia()
-  .use(await remix({ mode: process.env.NODE_ENV }))
-  .get("/hello", () => "world !")
-  .listen(3000);
-
-console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
 ```
 
 Run
