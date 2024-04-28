@@ -16,8 +16,8 @@ export const handler = async (options: RemixElysiaOptions) => {
   vite.listen();
 
   const runOnViteOnly = [
-    (request: Request, url: URL) => request.url.includes("virtual:remix/") || request.url.includes("@vite/"),
-    (request: Request, url: URL) => url.pathname.match(/(.js|.jsx|.ts|.tsx)$/),
+    (request: Request, _: URL) => request.url.includes("virtual:remix/") || request.url.includes("@vite/"),
+    (_: Request, url: URL) => url.pathname.match(/(.js|.jsx|.ts|.tsx)$/),
   ];
 
   return async (request: Request) => {
@@ -36,9 +36,10 @@ export const handler = async (options: RemixElysiaOptions) => {
         if (local.status < 400 || Object.keys(local.headers.toJSON()).find((key) => key.startsWith("x-remix")))
           return local;
       }
-      return await fetch(new Request({ ...request, url: `http://localhost:5959${_url.pathname}` }));
+      const fromVite = await fetch(new Request({ ...request, url: `http://localhost:5959${_url.pathname}` }));
+      if (fromVite.status === 404 && !options.basename) return;
+      return fromVite;
     } catch (error: unknown) {
-      console.log(`catched:`, error);
       return initialResponse ?? new Response("Internal Error", { status: 500 });
     }
   };

@@ -20,7 +20,7 @@ export const hasBuild = async (options: RemixElysiaOptions) => Bun.file(getServe
 
 export const publicFile = (
   options: RemixElysiaOptions,
-  prefix: string = options.basename,
+  prefix: string = options.basename ?? "/",
   folder: string = "public",
   immutable = false
 ) => {

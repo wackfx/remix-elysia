@@ -19,7 +19,13 @@ export const handler = async (options: RemixElysiaOptions) => {
       if (_anyPublic.some((asset) => asset)) return _anyPublic.find((asset) => asset);
       const loadContext = await options.getLoadContext?.({ request, context: { env: process.env } });
 
-      return handleRequest(request, loadContext);
+      const response = await handleRequest(request, loadContext);
+      if (
+        response.status < 400 ||
+        Object.keys(response.headers.toJSON()).find((key) => key.startsWith("x-remix")) ||
+        options.basename
+      )
+        return response;
     } catch (error: unknown) {
       console.error(error);
     }
