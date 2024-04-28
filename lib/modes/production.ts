@@ -17,7 +17,7 @@ export const handler = async (options: RemixElysiaOptions) => {
     try {
       const _anyPublic = await Promise.all(assets.map((asset) => asset(request)));
       if (_anyPublic.some((asset) => asset)) return _anyPublic.find((asset) => asset);
-      const loadContext = await options.getLoadContext?.(request);
+      const loadContext = await options.getLoadContext?.({ request, context: { env: process.env } });
 
       return handleRequest(request, loadContext);
     } catch (error: unknown) {

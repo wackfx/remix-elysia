@@ -15,21 +15,21 @@ export const handler = async (options: RemixElysiaOptions) => {
   const getPublicFile = publicFile(options, options.basename, "public");
   vite.listen();
 
-  return async (_request: Request) => {
+  return async (request: Request) => {
     let initialResponse: Response | undefined = undefined;
     try {
-      const _publicFile = await getPublicFile(_request);
+      const _publicFile = await getPublicFile(request);
       if (_publicFile) return _publicFile;
 
       const build = (await vite.ssrLoadModule("virtual:remix/server-build")) as ServerBuild;
-      const loadContext = await options.getLoadContext?.(_request);
+      const loadContext = await options.getLoadContext?.({ request, context: { env: process.env } });
       const handleRequest = createRequestHandler(build, options.mode);
 
-      if (_request.headers.get("sec-fetch-dest") !== "script")
-        initialResponse = await handleRequest(_request, loadContext);
+      if (request.headers.get("sec-fetch-dest") !== "script")
+        initialResponse = await handleRequest(request, loadContext);
       if (!initialResponse || initialResponse.status === 404) {
-        const _url = new URL(_request.url);
-        const url = new Request({ ..._request, url: `http://localhost:5959${_url.pathname}` });
+        const _url = new URL(request.url);
+        const url = new Request({ ...request, url: `http://localhost:5959${_url.pathname}` });
         return await fetch(url);
       }
       return initialResponse;
