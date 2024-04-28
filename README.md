@@ -77,10 +77,11 @@ import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
+// ⚠️ Can't be /app for some unknown reason
 export default defineConfig({
-+  base: "/app",
++  base: "/play",
 -  plugins: [remix(), tsconfigPaths()]
-+  plugins: [remix({ basename: '/app' }), tsconfigPaths()]
++  plugins: [remix({ basename: '/play' }), tsconfigPaths()]
 });
 ```
 
@@ -92,7 +93,7 @@ import { remix } from "remix-elysia";
 
 const app = new Elysia()
 -  .use(await remix({ mode: process.env.NODE_ENV }))
-+  .use(await remix({ mode: process.env.NODE_ENV, basename: '/app' }))
++  .use(await remix({ mode: process.env.NODE_ENV, basename: '/play' }))
   .get("/hello", () => "world !")
   .listen(3000);
 
