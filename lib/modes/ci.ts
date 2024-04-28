@@ -5,10 +5,6 @@ import { _import, hasBuild } from "../utils";
 export const build = async (options: RemixElysiaOptions) => {
   options.mode = options.mode ?? "development";
   options.root = options.root ?? process.cwd();
-  options.watch = options.watch ?? [
-    resolve(options.root, options.directory ?? "", "app"),
-    resolve(options.root, options.directory ?? "", "public"),
-  ];
   options.config = options.config ?? resolve(options.root, options.directory ?? "", "vite.config.ts");
 
   const remixImported = await _import("@remix-run/dev/dist/vite/build");

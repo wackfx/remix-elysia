@@ -1,5 +1,7 @@
 {
+  "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
+    "types": ["@types/bun", "@remix-run/dev"],
     // Enable latest features
     "lib": ["ESNext", "DOM"],
     "target": "ESNext",

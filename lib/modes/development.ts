@@ -15,6 +15,11 @@ export const handler = async (options: RemixElysiaOptions) => {
   const getPublicFile = publicFile(options, options.basename, "public");
   vite.listen();
 
+  const runOnViteOnly = [
+    (request: Request, url: URL) => request.url.includes("virtual:remix/") || request.url.includes("@vite/"),
+    (request: Request, url: URL) => url.pathname.match(/(.js|.jsx|.ts|.tsx)$/),
+  ];
+
   return async (request: Request) => {
     let initialResponse: Response | undefined = undefined;
     try {
@@ -25,16 +30,15 @@ export const handler = async (options: RemixElysiaOptions) => {
       const loadContext = await options.getLoadContext?.({ request, context: { env: process.env } });
       const handleRequest = createRequestHandler(build, options.mode);
 
-      if (request.headers.get("sec-fetch-dest") !== "script")
-        initialResponse = await handleRequest(request, loadContext);
-      if (!initialResponse || initialResponse.status === 404) {
-        const _url = new URL(request.url);
-        const url = new Request({ ...request, url: `http://localhost:5959${_url.pathname}` });
-        return await fetch(url);
+      const _url = new URL(request.url);
+      if (runOnViteOnly.some((fn) => fn(request, _url)) === false) {
+        const local = await handleRequest(request, loadContext);
+        if (local.status < 400 || Object.keys(local.headers.toJSON()).find((key) => key.startsWith("x-remix")))
+          return local;
       }
-      return initialResponse;
+      return await fetch(new Request({ ...request, url: `http://localhost:5959${_url.pathname}` }));
     } catch (error: unknown) {
-      console.log(error);
+      console.log(`catched:`, error);
       return initialResponse ?? new Response("Internal Error", { status: 500 });
     }
   };
